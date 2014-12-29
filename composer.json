@@ -17,7 +17,8 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "bower-asset/adminlte": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
@@ -28,9 +29,19 @@
     "config": {
         "process-timeout": 1800
     },
+    "autoload": {
+        "psr-4": { "app\\": "" }
+    },
     "scripts": {
         "post-create-project-cmd": [
-            "yii\\composer\\Installer::postCreateProject"
+            "yii\\composer\\Installer::postCreateProject",
+            "app\\components\\ComposerInstaller::initProject"
+        ],
+        "post-install-cmd": [
+            "app\\components\\ComposerInstaller::initProject"
+        ],
+        "post-update-cmd": [
+            "app\\components\\ComposerInstaller::initProject"
         ]
     },
     "extra": {
