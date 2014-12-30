@@ -34,16 +34,15 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "yii\\composer\\Installer::postCreateProject",
-            "app\\components\\ComposerInstaller::initProject",
-            "php yii app/install"
+            "yii\\composer\\Installer::postCreateProject"
         ],
         "post-install-cmd": [
             "app\\components\\ComposerInstaller::initProject",
             "php yii app/install"
         ],
         "post-update-cmd": [
-            "app\\components\\ComposerInstaller::initProject"
+            "app\\components\\ComposerInstaller::initProject",
+            "php yii app/install"
         ]
     },
     "extra": {

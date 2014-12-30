@@ -31,3 +31,6 @@ phpunit.phar
 
 # database config
 /config/db.php
+
+# install lock file
+install.lock

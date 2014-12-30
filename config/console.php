@@ -3,9 +3,8 @@
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
 $params = require(__DIR__ . '/params.php');
-$db = require(__DIR__ . '/db.php');
 
-return [
+$config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
@@ -25,7 +24,12 @@ return [
                 ],
             ],
         ],
-        'db' => $db,
     ],
     'params' => $params,
 ];
+
+if (file_exists(__DIR__ . '/db.php')) {
+    $config['components']['db'] = $db = require(__DIR__ . '/db.php');
+}
+
+return $config;
