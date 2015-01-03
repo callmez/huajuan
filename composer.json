@@ -1,16 +1,14 @@
 {
-    "name": "yiisoft/yii2-app-basic",
-    "description": "Yii 2 Basic Application Template",
-    "keywords": ["yii2", "framework", "basic", "application template"],
-    "homepage": "http://www.yiiframework.com/",
+    "name": "callmez/huajuan",
+    "description": "Imagine a picture",
+    "keywords": ["callmez", "forum", "Yii2", "wechat", "wechat"],
+    "homepage": "https://github.com/callmez/huajuan",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/yii2"
+        "issues": "https://github.com/callmez/huajuan/issues?state=open",
+        "wiki": "https://github.com/callmez/huajuan/wiki/",
+        "source": "https://github.com/callmez/huajuan"
     },
     "minimum-stability": "dev",
     "require": {
@@ -37,12 +35,10 @@
             "yii\\composer\\Installer::postCreateProject"
         ],
         "post-install-cmd": [
-            "app\\components\\ComposerInstaller::initProject",
-            "php yii app/install"
+            "app\\components\\ComposerInstaller::initProject"
         ],
         "post-update-cmd": [
-            "app\\components\\ComposerInstaller::initProject",
-            "php yii app/install"
+            "app\\components\\ComposerInstaller::initProject"
         ]
     },
     "extra": {

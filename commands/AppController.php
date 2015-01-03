@@ -12,10 +12,7 @@ use yii\console\Controller;
  */
 class AppController extends Controller
 {
-    public function actionIndex()
-    {
-    }
-
+    public $defaultAction = 'install';
     /**
      * 项目安装 当代码第一次初始化后执行此命令可引导安装项目必要设置
      */
@@ -140,5 +137,6 @@ EOF;
      */
     public function actionMigrate()
     {
+
     }
 }
