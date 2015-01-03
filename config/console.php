@@ -2,16 +2,12 @@
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
 
-$params = require(__DIR__ . '/params.php');
-
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'gii'],
     'controllerNamespace' => 'app\commands',
-    'modules' => [
-        'gii' => 'yii\gii\Module',
-    ],
+    'modules' => require(__DIR__ . '/modules.php'),
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -25,11 +21,13 @@ $config = [
             ],
         ],
     ],
-    'params' => $params,
+    'params' => require(__DIR__ . '/params.php'),
 ];
 
+$config['modules']['gii'] = 'yii\gii\Module';
+
+// 项目刚创建时db.php是没有的.所以不需要加载
 if (file_exists(__DIR__ . '/db.php')) {
     $config['components']['db'] = $db = require(__DIR__ . '/db.php');
 }
-
 return $config;
