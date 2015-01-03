@@ -17,11 +17,11 @@ class AppController extends Controller
     /**
      * 检查当前环境是否可用
      */
-    public function actionCheck()
+    public function actionCheck($path = '@app/requirements.php')
     {
         ob_start();
         ob_implicit_flush(false);
-        require Yii::getAlias('@app/requirements.php');
+        require Yii::getAlias($path);
         $content = ob_get_clean();
 
         $content = str_replace('OK', $this->ansiFormat("OK", Console::FG_GREEN), $content);
