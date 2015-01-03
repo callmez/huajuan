@@ -6,15 +6,32 @@ use yii\helpers\Console;
 use yii\console\Controller;
 
 /**
- * 项目辅助命令
+ * 项目命令
  *
  * @package app\commands
  */
 class AppController extends Controller
 {
     public $defaultAction = 'install';
+
     /**
-     * 项目安装 当代码第一次初始化后执行此命令可引导安装项目必要设置
+     * 检查当前环境是否可用
+     */
+    public function actionCheck()
+    {
+        ob_start();
+        ob_implicit_flush(false);
+        require Yii::getAlias('@app/requirements.php');
+        $content = ob_get_clean();
+
+        $content = str_replace('OK', $this->ansiFormat("OK", Console::FG_GREEN), $content);
+        $content = str_replace('WARNING!!!', $this->ansiFormat("WARNING!!!", Console::FG_YELLOW), $content);
+        $content = str_replace('FAILED!!!', $this->ansiFormat("FAILED!!!", Console::FG_RED), $content);
+        echo $content;
+    }
+
+    /**
+     * 项目安装 当代码第一次初始化后执行此命令可引导安装项目
      */
     public function actionInstall()
     {
