@@ -4,7 +4,7 @@
     "keywords": ["callmez", "forum", "Yii2", "wechat", "wechat"],
     "homepage": "https://github.com/callmez/huajuan",
     "type": "project",
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "support": {
         "issues": "https://github.com/callmez/huajuan/issues?state=open",
         "wiki": "https://github.com/callmez/huajuan/wiki/",
