@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\wechat\controllers;
+namespace app\modules\user\controllers;
 
 use yii\web\Controller;
 

@@ -17,7 +17,8 @@ $config = [
             'forceCopy' => YII_DEBUG
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\user\models\User',
+            'loginUrl' => ['/user/login'],
             'enableAutoLogin' => true,
         ],
         'urlManager' => array(

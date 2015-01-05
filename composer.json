@@ -16,7 +16,10 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "bower-asset/adminlte": "*"
+
+        "bower-asset/fontawesome": "*",
+        "bower-asset/adminlte": "*",
+        "bower-asset/angular": "1.2.*@stable | 1.3.*@stable"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

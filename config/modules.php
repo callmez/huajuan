@@ -1,10 +1,13 @@
 <?php
 $modules = [
-    //微信模块
-    'wechat' => 'app\modules\wechat\Module',
+    // 后台
+    'admin' => 'app\modules\admin\Module',
 
-    //论坛模块
-    'forum' => 'app\modules\forum\Module',
+    // 用户模块
+    'user' => 'app\modules\user\Module',
+
+    // 后台
+    'admin' => 'app\modules\admin\Module',
 ];
 
 return $modules;
