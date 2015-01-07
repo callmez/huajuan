@@ -27,7 +27,7 @@ class AppController extends Controller
         $content = str_replace('OK', $this->ansiFormat("OK", Console::FG_GREEN), $content);
         $content = str_replace('WARNING!!!', $this->ansiFormat("WARNING!!!", Console::FG_YELLOW), $content);
         $content = str_replace('FAILED!!!', $this->ansiFormat("FAILED!!!", Console::FG_RED), $content);
-        echo $content;
+        $this->stdout($content);
     }
 
     /**
@@ -42,11 +42,12 @@ class AppController extends Controller
                 '初始化数据库数据' => 'migrate'
             ]);
             if ($result) {
-                echo $this->ansiFormat("恭喜, 站点配置成功!\n", Console::FG_GREEN);
+                $this->stdout("恭喜, 站点配置成功!\n", Console::FG_GREEN);
                 touch($lockFile);
             }
         } else {
-            echo "站点已经配置完毕,无需再配置\n(如需重新配置, 请删除{$lockFile}文件后再执行命令!)\n";
+            $this->stdout("站点已经配置完毕,无需再配置\n", Console::FG_GREEN);
+            $this->stdout(" - 如需重新配置, 请删除{$lockFile}文件后再执行命令!\n");
         }
     }
 
@@ -54,13 +55,13 @@ class AppController extends Controller
     {
         $i = 1;
         foreach ($steps as $step => $args) {
-            echo "\n\n - Step {$i} {$step} \n";
-            echo "==================================================\n";
+            $this->stdout("\n\n - Step {$i} {$step} \n");
+            $this->stdout("==================================================\n");
             !is_array($args) && $args = (array)$args;
             $method = array_shift($args);
             $result = call_user_func_array([$this, 'action' . $method], $args);
             if ($result === false) {
-                echo $this->ansiFormat("{$step}失败, 退出安装流程\n", Console::FG_RED);
+                $this->stdout("{$step}失败, 退出安装流程\n", Console::FG_RED);
                 return false;
             }
             $i++;
@@ -76,10 +77,14 @@ class AppController extends Controller
     {
         $dbFile = Yii::getAlias('@app/config/db.php');
         if (!file_exists($dbFile)) {
-            echo $this->ansiFormat("默认数据库配置文件未找到,将进入数据库配置创建流程\n", Console::FG_RED);
-            return $this->generateDbFile($dbFile);
+            $this->stdout("默认数据库配置文件未找到,将进入数据库配置创建流程\n", Console::FG_RED);
+            $result = $this->generateDbFile($dbFile);
+            if ($result !== false) { // 生成文件了之后.加载db配置
+                Yii::$app->set('db', require $dbFile);
+            }
+            return $result;
         }
-        echo "'{$dbFile}' 配置文件已存在, 无需配置\n";
+        $this->stdout("'{$dbFile}' 配置文件已存在, 无需配置\n");
     }
 
     /**
@@ -120,15 +125,15 @@ class AppController extends Controller
             try {
                 $db->open();
 
-                echo $this->ansiFormat("数据连接成功\n", Console::FG_GREEN);
+                $this->stdout("数据连接成功\n", Console::FG_GREEN);
             } catch (\Exception $e) {
-                echo $this->ansiFormat("数据连接失败:" . $e->getMessage() . "\n", Console::FG_RED);
-                $message = '依然写入文件?';
+                $this->stdout("数据连接失败:" . $e->getMessage() . "\n", Console::FG_RED);
+                $message = '依然写入文件?(如果依然写入文件, 会影响后续安装步骤)';
             }
         }
 
         if ($message === null || $this->confirm($message)) {
-            echo "生成数据库配置文件...\n";
+            $this->stdout("生成数据库配置文件...\n");
             $code = <<<EOF
 <?php
 return [
@@ -141,8 +146,8 @@ return [
 ];
 EOF;
             file_put_contents($dbFile, $code);
-            echo $this->ansiFormat("恭喜! 数据库配置完毕!\n", Console::FG_GREEN);
-        } elseif($this->confirm("是否重新设置?", false)) {
+            $this->stdout("恭喜! 数据库配置完毕!\n", Console::FG_GREEN);
+        } elseif($this->confirm("是否重新设置?", true)) {
             return $this->generateDbFile($dbFile);
         } else {
             return false;
@@ -154,6 +159,26 @@ EOF;
      */
     public function actionMigrate()
     {
+        // 默认迁移目录
+        $migrationsPath = array(
+            '默认目录' => Yii::getAlias('@app/migrations')
+        );
+        // 注册的模块迁移目录
+        foreach (Yii::$app->getModules() as $id => $module) {
+            !is_object($module) && $module = Yii::$app->getModule($id);
+            $modulePath = Yii::getAlias('@' . str_replace('\\', '/', get_class($module)));
+            $migrationsPath["{$id}模块目录"] = dirname($modulePath) . '/migrations';
+        }
+
+        foreach ($migrationsPath as $name => $migrationPath) {
+            if (!is_dir($migrationPath)) {
+                continue;
+            }
+            $this->stdout("\n\n{$name}迁移: {$migrationPath}\n", Console::FG_GREEN);
+            Yii::$app->runAction('migrate/up', [
+                'migrationPath' => $migrationPath
+            ]);
+        }
 
     }
 }
