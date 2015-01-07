@@ -45,6 +45,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'config' => 'app\components\DbConfig'
     ],
     'params' => require(__DIR__ . '/params.php'),
 ];
