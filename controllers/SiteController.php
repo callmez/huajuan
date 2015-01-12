@@ -2,15 +2,18 @@
 
 namespace app\controllers;
 
+use app\components\ControllerTrait;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\modules\admin\components\Menu;
 
 class SiteController extends Controller
 {
+    use ControllerTrait;
     public function behaviors()
     {
         return [
@@ -92,5 +95,33 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionTest()
+    {
+
+        Menu::delete('user');exit;
+        Menu::set('user.list', [
+            'label' => '用户列表',
+            'url' => ['/user/admin/user/index'],
+            'priority' => 10
+        ]);
+        Menu::set('user', [
+            'label' => '用户管理',
+            'url' => ['/user/admin/user/index'],
+            'icon' => 'fa-user',
+            'priority' => 10
+        ]);
+        Menu::set('user.name', [
+            'label' => '用户名称',
+            'url' => ['/user/admin/user/index'],
+            'priority' => 9
+        ]);
+        Menu::set('test', [
+            'label' => '测试',
+            'url' => ['/user/admin/user/index'],
+            'priority' => 10
+        ]);
+//        echo count(Yii::$app->config['test']);
     }
 }

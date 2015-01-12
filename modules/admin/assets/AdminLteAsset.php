@@ -17,6 +17,6 @@ class AdminLteAsset extends AssetBundle
     'yii\bootstrap\BootstrapAsset',
     'yii\bootstrap\BootstrapPluginAsset',
     'app\assets\FontAwesomeAsset',
-    'app\modules\admin\assets\InoIconsAsset'
+    'app\modules\admin\assets\IonIconsAsset'
 ];
 }

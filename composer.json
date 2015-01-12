@@ -17,6 +17,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
 
+        "callmez/yii2-config": "*",
+
         "bower-asset/fontawesome": "*",
         "bower-asset/adminlte": "*",
         "bower-asset/angular": "1.2.*@stable | 1.3.*@stable"

@@ -5,7 +5,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Response;
 
-class Controller extends \yii\console\Controller
+trait ControllerTrait
 {
     public $messageLayout = '//common/message';
     /**

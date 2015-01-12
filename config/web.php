@@ -45,7 +45,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        'config' => 'app\components\DbConfig'
+        'config' => 'callmez\config\adapters\DbConfig'
     ],
     'params' => require(__DIR__ . '/params.php'),
 ];

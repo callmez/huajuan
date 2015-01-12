@@ -2,11 +2,13 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use app\components\Controller;
+use yii\web\Controller;
+use app\components\ControllerTrait;
 use app\modules\user\models\LoginForm;
 
 class LoginController extends Controller
 {
+    use ControllerTrait;
     public function actionIndex()
     {
         $model = new LoginForm();

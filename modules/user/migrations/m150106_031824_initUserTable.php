@@ -1,22 +1,12 @@
 <?php
 
 use yii\db\Schema;
-use app\components\Migration;
+use yii\base\components\Migration;
 use app\modules\user\models\User;
 
-class m150104_094807_initTable extends Migration
+class m150106_031824_initUserTable extends Migration
 {
     public function up()
-    {
-        $this->createUserTable();
-    }
-
-    public function down()
-    {
-        $this->dropTable(User::tableName());
-    }
-
-    public function createUserTable()
     {
         $tableName = User::tableName();
         $this->createTable($tableName, [
@@ -34,8 +24,10 @@ class m150104_094807_initTable extends Migration
 
         $this->createIndex('username', $tableName, 'username', true);
         $this->createIndex('email', $tableName, 'email', true);
-        $this->createIndex('user_confirmation', $tableName, 'id, confirmation_token', true);
-        $this->createIndex('user_recovery', $tableName, 'id, recovery_token', true);
+    }
 
+    public function down()
+    {
+        $this->dropTable(User::tableName());
     }
 }
