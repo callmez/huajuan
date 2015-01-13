@@ -3,7 +3,7 @@ namespace app\components;
 
 use Yii;
 
-class Migration extends \yii\db\Migration
+trait MigrationTrait
 {
     /**
      * @var string

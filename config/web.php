@@ -25,6 +25,9 @@ $config = [
             'showScriptName' => false,
             'enablePrettyUrl' => true
         ),
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],

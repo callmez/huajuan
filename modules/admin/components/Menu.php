@@ -51,7 +51,7 @@ class Menu
             if (!isset($_menu[$menuKey]) || !is_array($_menu[$menuKey])) {
                 $_menu[$menuKey] = [
                     'label' => $menuKey,
-                    'priority' => 10
+                    'priority' => 100
                 ];
             }
             if (!isset($_menu[$menuKey]['items'])) {
@@ -71,6 +71,11 @@ class Menu
         return Yii::$app->get('config')->set(static::MENU_BASE_KEY, $menus);
     }
 
+    /**
+     * 删除菜单
+     * @param $menuKey
+     * @return mixed
+     */
     public static function delete($menuKey)
     {
         return Yii::$app

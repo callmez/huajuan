@@ -99,7 +99,7 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-
+        echo count(Yii::$app->config['test']);
         Menu::delete('user');exit;
         Menu::set('user.list', [
             'label' => '用户列表',
@@ -122,6 +122,5 @@ class SiteController extends Controller
             'url' => ['/user/admin/user/index'],
             'priority' => 10
         ]);
-//        echo count(Yii::$app->config['test']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 $this->title = '登录';
 ?>
@@ -13,17 +13,22 @@ $this->title = '登录';
             </div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin([
-                    'id' => 'login-form',
-                    'enableAjaxValidation' => true
+                    'id' => 'login-form'
                 ]) ?>
 
-                <?= $form->field($model, 'username', ['inputOptions' => ['autofocus' => 'autofocus', 'class' => 'form-control', 'tabindex' => '1']]) ?>
+                <?= $form->field($model, 'username')->textInput([
+                    'placeholder' => $model->getAttributeLabel('username'),
+                ]) ?>
 
-                <?= $form->field($model, 'password', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->passwordInput()->label('密码 (' . Html::a('忘记密码', ['/user/recovery/request'], ['tabindex' => '5']) . ')') ?>
+                <?= $form->field($model, 'password')->passwordInput([
+                    'placeholder' => $model->getAttributeLabel('password'),
+                ]) ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox(['tabindex' => '4']) ?>
+                <?= $form->field($model, 'rememberMe')->checkbox([
+                    'template' => "<div class=\"checkbox\">\n" . Html::a('忘记密码?', ['/user/default/resetPassword'], ['class' => 'pull-right']) . "{beginLabel}\n{input}\n{labelTitle}\n{endLabel}\n{error}\n{hint}\n</div>"
+                ]) ?>
 
-                <?= Html::submitButton('提交', ['class' => 'btn btn-primary btn-block', 'tabindex' => '3']) ?>
+                <?= Html::submitButton('提交', ['class' => 'btn btn-block btn-primary']) ?>
 
                 <?php ActiveForm::end(); ?>
             </div>

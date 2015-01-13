@@ -20,6 +20,10 @@ $config = [
                 ],
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+        'config' => 'callmez\config\adapters\DbConfig'
     ],
     'params' => require(__DIR__ . '/params.php'),
 ];
