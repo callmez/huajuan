@@ -8,19 +8,6 @@ use yii\base\InvalidConfigException;
 class Menu
 {
     const MENU_BASE_KEY = 'admin.menu';
-    /**
-     * 获取指定菜单
-     * ~~~
-     * Menu::get('user.list')
-     * ~~~
-     * @param string $menuKey
-     * @return array
-     */
-    public static function get($menuKey = null)
-    {
-        $menuKey !== null && $menuKey = '.' . implode('.items.', explode('.', $menuKey));
-        return (array)Yii::$app->get('config')->get(static::MENU_BASE_KEY . $menuKey, []);
-    }
 
     /**
      * 设置菜单(如果菜单已存在则覆盖)
@@ -69,6 +56,20 @@ class Menu
         ArrayHelper::multisort($_menu, 'priority'); // 排序
 
         return Yii::$app->get('config')->set(static::MENU_BASE_KEY, $menus);
+    }
+
+    /**
+     * 获取指定菜单
+     * ~~~
+     * Menu::get('user.list')
+     * ~~~
+     * @param string $menuKey
+     * @return array
+     */
+    public static function get($menuKey = null)
+    {
+        $menuKey !== null && $menuKey = '.' . implode('.items.', explode('.', $menuKey));
+        return (array)Yii::$app->get('config')->get(static::MENU_BASE_KEY . $menuKey, []);
     }
 
     /**

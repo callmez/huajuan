@@ -3,12 +3,26 @@ namespace app\modules\user\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\components\ControllerTrait;
+use yii\filters\AccessControl;
 use app\modules\user\models\LoginForm;
 
 class LoginController extends Controller
 {
-    use ControllerTrait;
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ]
+                ]
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         $model = new LoginForm();

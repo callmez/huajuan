@@ -3,10 +3,26 @@
 namespace app\modules\user\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\modules\user\models\SignupForm;
 
 class SignupController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ]
+                ]
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         $model = new SignupForm();

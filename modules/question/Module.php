@@ -1,10 +1,11 @@
 <?php
 
-namespace app\modules\forum;
+namespace app\modules\question;
 
 class Module extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\forum\controllers';
+    public $layout = 'main';
+    public $controllerNamespace = 'app\modules\question\controllers';
 
     public function init()
     {

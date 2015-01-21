@@ -7,7 +7,7 @@ use callmez\config\adapters\DbConfig;
 require Yii::getAlias('@callmez/config/migrations/m150106_015855_initConfigTable.php');
 
 /**
- * 初始化Config表
+ * 初始化配置表
  */
 class m150113_064722_initConfigTable extends m150106_015855_initConfigTable
 {

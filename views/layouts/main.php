@@ -1,4 +1,6 @@
 <?php
+use Yii;
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -19,6 +21,11 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <script type="text/javascript">
+        var G = {
+            baseUrl: '<?= Url::base(true) ?>'
+        };
+    </script>
 </head>
 <body>
 
@@ -33,15 +40,16 @@ AppAsset::register($this);
                 ],
             ]);
             $items = [
-                ['label' => 'Home', 'url' => ['/site/index']],
-                ['label' => 'About', 'url' => ['/site/about']],
-                ['label' => 'Contact', 'url' => ['/site/contact']],
+                ['label' => '首页', 'url' => ['/site/index']],
+                ['label' => '问答', 'url' => ['/question']],
+                ['label' => '关于我们', 'url' => ['/site/about']],
+                ['label' => '联系我们', 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
-                $items[] = ['label' => 'Login', 'url' => Yii::$app->user->loginUrl];
-                $items[] = ['label' => 'Signup', 'url' => ['/user/signup']];
+                $items[] = ['label' => '登录', 'url' => Yii::$app->user->loginUrl];
+                $items[] = ['label' => '注册', 'url' => ['/user/signup']];
             } else {
-                $items[] = ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                $items[] = ['label' => '退出 (' . Yii::$app->user->identity->username . ')',
                     'url' => ['/user/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ];

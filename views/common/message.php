@@ -1,5 +1,7 @@
 <?php
-use Yii;
+use \Yii;
+use yii\helpers\ArrayHelper;
+
 $statusSettings = [
     'success' => [
         'alertClass' =>  'alert-success'
@@ -22,7 +24,7 @@ $statusSettings = [
         </div>
         <div class="text-center">
             <p class="alert <?= $statusSettings[$type]['alertClass'] ?>">
-                <?= $message ?>
+                    <?= is_array($message) ? implode('<br>', ArrayHelper::getColumn($message, 0)) : $message ?>
             </p>
             <?php if ($redirect): ?>
                 <p>

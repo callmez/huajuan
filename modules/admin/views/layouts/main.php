@@ -20,7 +20,7 @@ AdminAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <?php $this->head() ?>
 </head>
-<body class="skin-black">
+<body class="skin-blue">
 <?php $this->beginBody() ?>
 <header class="header">
     <?= Html::a(Yii::$app->name, ['/admin'], ['class' => 'logo']) ?>

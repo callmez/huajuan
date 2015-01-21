@@ -1,11 +1,14 @@
 <?php
 namespace app\modules\user\models;
 
+use app\modules\question\models\Answer;
 use Yii;
-use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use app\modules\question\models\Question;
 
 /**
  * User model
@@ -184,5 +187,102 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * 获取用户头像,(如果无数据则返回默认头像)
+     * @return mixed
+     */
+    public function getAvatarUrl()
+    {
+        return Url::to(['/images/anonymous.jpg']);
+    }
+
+    /**
+     * 获取用户喜欢列表
+     * @return static
+     */
+    public function getLikes()
+    {
+        return $this->hasMany(Like::className(), ['author_id' => 'id'])->inverseOf('author');
+    }
+
+    /**
+     * 获取用户喜欢的指定问题
+     * @return static
+     */
+    public function getLikeQuestion($id)
+    {
+        return $this->hasOne(Question::className(), ['id' => 'target_id'])
+            ->via('likes', function($query) use ($id) {
+                $query->andWhere([
+                    'target_type' => Question::TYPE,
+                    'target_id' => $id
+                ]);
+                $query->multiple = false;
+            });
+    }
+
+    /**
+     * 获取用户喜欢的问题
+     * @return static
+     */
+    public function getLikeQuestions()
+    {
+        return $this->hasMany(Question::className(), ['id' => 'target_id'])
+            ->via('likes', function($query) {
+                $query->andWhere([
+                    'target_type' => Question::TYPE
+                ]);
+            });
+    }
+
+    /**
+     * 获取用户喜欢的回答
+     * @return static
+     */
+    public function getLikeAnswers()
+    {
+        return $this->hasMany(Answer::className(), ['id' => 'target_id'])
+            ->via('likes', function($query) {
+                $query->andWhere([
+                    'target_type' => Answer::TYPE
+                ]);
+            });
+    }
+
+    /**
+     * 获取用户喜欢的指定回答
+     * @return static
+     */
+    public function getLikeAnswer($id)
+    {
+        return $this->hasOne(Answer::className(), ['id' => 'target_id'])
+            ->via('likes', function($query) use ($id) {
+                $query->andWhere([
+                    'target_type' => Answer::TYPE,
+                    'target_id' => $id
+                ]);
+                $query->multiple = false;
+            });
+    }
+
+    /**
+     * 获取用户发表的问题
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuestions()
+    {
+        return $this->hasMany(Question::className(), ['author_id' => 'id'])->inverseOf('author');
+    }
+
+    /**
+     * 获取用户发表的问题
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQuestion($id)
+    {
+        return $this->hasOne(Question::className(), ['author_id' => 'id'])
+            ->andWhere(['id' => $id]);
     }
 }

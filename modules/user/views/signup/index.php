@@ -19,9 +19,7 @@ $this->title = 'Signup';
                     <?= $form->field($model, 'username') ?>
                     <?= $form->field($model, 'email') ?>
                     <?= $form->field($model, 'password')->passwordInput() ?>
-                    <div class="form-group">
-                        <?= Html::submitButton('注册', ['class' => 'btn btn-block btn-success']) ?>
-                    </div>
+                    <?= Html::submitButton('注册', ['class' => 'btn btn-block btn-success']) ?>
                     <?php ActiveForm::end(); ?>
                 </div>
             </div>

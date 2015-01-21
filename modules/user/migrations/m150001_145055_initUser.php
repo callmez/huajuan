@@ -6,7 +6,7 @@ use yii\helpers\Console;
 use app\modules\admin\components\Menu;
 
 /**
- * 初始化user模块数据
+ * 初始化用户模块所需数据
  */
 class m150001_145055_initUser extends Migration
 {
@@ -30,7 +30,7 @@ class m150001_145055_initUser extends Migration
         Menu::set('user', [
             'label' => '用户管理',
             'url' => ['/user/admin/user/index'],
-            'icon' => 'fa-group',
+            'icon' => 'fa-user',
             'priority' => 100
         ]);
 
@@ -38,7 +38,7 @@ class m150001_145055_initUser extends Migration
         Menu::set('rbac', [
             'label' => '角色权限',
             'url' => ['/user/admin/rbac/index'],
-            'icon' => 'fa-user',
+            'icon' => 'fa-group',
             'priority' => 100
         ]);
         Menu::set('rbac.roles', [
