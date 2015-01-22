@@ -99,5 +99,6 @@ class SiteController extends Controller
 
     public function actionTest()
     {
+        echo Yii::$app->formatter->asRelativeTime(time());
     }
 }

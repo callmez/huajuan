@@ -107,7 +107,10 @@ class Question extends Post
         $model->setAttributes([
             'pid' => $this->id
         ]);
-        return $model->save();
+        if ($result = $model->save()) {
+            $model->setActive(); // 后期可以改为开关审核问题
+        }
+        return $result;
     }
 
     /**

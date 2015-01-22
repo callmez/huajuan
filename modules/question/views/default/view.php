@@ -9,7 +9,7 @@ use yii\widgets\ListView;
 $this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="topic-view">
+<div class="question-view">
     <?= $this->render('_question', [
         'model' => $model
     ]) ?>

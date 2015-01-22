@@ -30,8 +30,8 @@ $isQuestion = !$model->pid;
                 </a>
             <?php endif ?>
         </div>
-        <div class="question-main">
-            <div class="question-content mb15"><?= Markdown::process($model->content, 'gfm') ?></div>
+        <div class="question-content">
+            <?= Markdown::process($model->content, 'gfm') ?>
             <?php if ($isQuestion) : ?>
                 <div class="question-tags">
                     <?php foreach($model->tags as $tag): ?>
@@ -40,26 +40,13 @@ $isQuestion = !$model->pid;
                 </div>
             <?php endif ?>
             <div class="question-author">
-                <table>
-                    <tbody>
-                    <tr>
-                        <td rowspan="2">
-                            <?= Html::a(Html::img($model->author->getAvatarUrl(), ['class' => 'avatar-sm']), ['question/view', 'id' => $model->id], [
-                                'title' => Html::encode($model->author->username),
-                            ]) ?>
-                        </td>
-                        <td>
-                            <h5><?= Html::a(Html::encode($model->author->username), ['/user/home/index', 'id' => $model->author->id]) ?></h5>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <?= date('Y-m-d H:i:s', $model->updated_at) ?>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <?= Html::a(Html::img($model->author->getAvatarUrl(), ['class' => 'avatar-sm']), ['question/view', 'id' => $model->id], [
+                    'title' => Html::encode($model->author->username),
+                ]) ?>
+                <p><?= Html::a(Html::encode($model->author->username), ['/user/home/index', 'id' => $model->author->id]) ?></p>
+                <p><?= Yii::$app->formatter->asRelativeTime($model->updated_at) ?> <?= $isQuestion ? '提问' : '回答'?></p>
             </div>
+
         </div>
     </div>
     <?php if ($isQuestion): ?>

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
+use app\widgets\Alert;
 use app\assets\AppAsset;
 
 /* @var $this \yii\web\View */
@@ -42,20 +43,41 @@ AppAsset::register($this);
             $items = [
                 ['label' => '首页', 'url' => ['/site/index']],
                 ['label' => '问答', 'url' => ['/question']],
-                ['label' => '关于我们', 'url' => ['/site/about']],
-                ['label' => '联系我们', 'url' => ['/site/contact']],
             ];
             if (Yii::$app->user->isGuest) {
                 $items[] = ['label' => '登录', 'url' => Yii::$app->user->loginUrl];
                 $items[] = ['label' => '注册', 'url' => ['/user/signup']];
             } else {
-                $items[] = ['label' => '退出 (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/user/logout'],
-                    'linkOptions' => ['data-method' => 'post']
+                $user = Yii::$app->user;
+                $identity = $user->identity;
+                $items[] = [
+                    'label' => Html::img($identity->getAvatarUrl([
+                            'width' => 32,
+                            'height' => 32
+                        ]), [
+                            'class' => 'avatar-xs',
+                        ]) . ' ' . $identity->username,
+                    'items' => [
+                        [
+                            'label' => '<span class="fa fa-home fa-fw"></span> 个人中心',
+                            'url' => ['/user/home/index', 'id' => $user->id]
+                        ],
+                        [
+                            'label' => '<span class="fa fa-user fa-fw"></span> 后台管理',
+                            'url' => ['/admin'],
+                            'visible' => $user->can('visitAdmin')
+                        ],
+                        '<li class="divider"></li>',
+                        [
+                            'label' => '<span class="fa fa-sign-out fa-fw"></span> 退出登录',
+                            'url' => ['/user/logout']
+                        ]
+                    ]
                 ];
             }
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
+                'encodeLabels' => false,
                 'items' => $items,
             ]);
             NavBar::end();
@@ -65,14 +87,32 @@ AppAsset::register($this);
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
+            <?= Alert::widget() ?>
             <?= $content ?>
         </div>
     </div>
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            <div class="row">
+                <div class="col-sm-2">
+                    <dt>网站信息</dt>
+                    <dd> <a href="<?= Url::to(['/site/about']) ?>">关于我们</a> </dd>
+                </div>
+                <div class="col-sm-2">
+                    <dt>相关合作</dt>
+                    <dd> <a href="<?= Url::to(['/site/contact']) ?>">联系我们</a> </dd>
+                </div>
+                <div class="col-sm-2">
+                    <dt>关注我们</dt>
+                    <dd> <a href="<?= Url::to(['/site']) ?>">成长日志</a> </dd>
+                </div>
+                <div class="col-sm-6">
+                    <dt> 技术采用 </dt>
+                    <dd> 由 <a href="https://github.com/callmez">CallMeZ</a> 创建 </dd>
+                    <dd> <?= Yii::powered() ?> </dd>
+                </div>
+            </div>
         </div>
     </footer>
 

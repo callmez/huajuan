@@ -5,6 +5,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'zh-CN',
+    'timeZone' => 'Asia/Shanghai',
     'modules' => require(__DIR__ . '/modules.php'),
     'components' => [
         'request' => [

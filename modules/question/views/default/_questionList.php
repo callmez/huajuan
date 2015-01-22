@@ -24,7 +24,7 @@ use yii\helpers\Html;
                 <h5><?= Html::a(Html::encode($model->subject), ['view', 'id' => $model->id]) ?></h5>
                 <div class="text-muted">
                     <span class="meta"> <span class="fa fa-eye"></span> <?= $model->view_count ?></span>&nbsp;
-                    <span class="meta"> <span class="fa fa-clock-o"></span> <?= date('Y-m-d H:i:s', $model->updated_at) ?></span>
+                    <span class="meta"> <span class="fa fa-clock-o"></span> <?= Yii::$app->formatter->asRelativeTime($model->updated_at) ?></span>
                 </div>
             </div>
         </div>

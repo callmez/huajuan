@@ -8,11 +8,12 @@ $this->registerJs("
         var commentConverter = Markdown.getSanitizingConverter();
             commentEditor = new Markdown.Editor(commentConverter);
         commentEditor.run();
+        $('#wmd-preview').removeClass('hide');
     });
 ");
 ?>
-<div class="topic-comment-form clearfix">
-    <h4>发表评论</h4>
+<div class="answer-form clearfix">
+    <h4>我要回答</h4>
     <?php $form = ActiveForm::begin([
         'fieldConfig' => [
             'template' => "{input}\n{hint}\n{error}"
@@ -29,13 +30,13 @@ $this->registerJs("
             ],
         ])->textarea([
             'id' => 'wmd-input',
-            'class' => 'form-control input-lg wmd-input',
+            'class' => 'form-control input-lg',
             'rows' => 6
         ]) ?>
     </div>
     <div class="form-group text-right">
-        <?= Html::submitButton('提交评论', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('提交回答', ['class' => 'btn btn-success']) ?>
     </div>
-    <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+    <div id="wmd-preview" class="wmd-panel wmd-preview hide"></div>
     <?php ActiveForm::end(); ?>
 </div>

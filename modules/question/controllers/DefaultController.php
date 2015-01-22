@@ -7,6 +7,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
 use app\components\ControllerTrait;
+use app\modules\question\components\ControllerTrait as QuestionControllerTrait;
 use app\modules\question\models\Question;
 use app\modules\question\models\QuestionSearch;
 use app\modules\question\models\Answer;
@@ -18,6 +19,8 @@ use app\modules\question\models\AnswerSearch;
 class DefaultController extends Controller
 {
     use ControllerTrait;
+    use QuestionControllerTrait;
+
     public function behaviors()
     {
         return [
@@ -39,8 +42,37 @@ class DefaultController extends Controller
         $searchModel = new QuestionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $sort = $dataProvider->getSort();
+        $sort->attributes = array_merge($sort->attributes, [
+            'hotest' => [
+                'asc' => [
+                    'comment_count' => SORT_DESC,
+                    'created_at' => SORT_DESC
+                ],
+                'desc' => [
+                    'comment_count' => SORT_DESC,
+                    'created_at' => SORT_DESC
+                ]
+            ],
+            'uncommented' => [
+                'asc' => [
+                    'comment_count' => SORT_ASC,
+                    'created_at' => SORT_DESC
+                ],
+                'desc' => [
+                    'comment_count' => SORT_ASC,
+                    'created_at' => SORT_DESC
+                ]
+            ]
+        ]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'sorts' => array(
+                'newest' => '最新的',
+                'hotest' => '热门的',
+                'uncommented' => '未回答的'
+            ),
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -53,17 +85,20 @@ class DefaultController extends Controller
     public function actionView($id)
     {
         $with = ['hate', 'like', 'author'];
-        $model = $this->findModel($id, function($query) use ($with) {
+        $model = $this->findQuestion($id, function($query) use ($with) {
             $with[] = 'favorite';
             $query->with($with);
         });
+
+        $answer = $this->newAnswer($model);
+
         $request = Yii::$app->request;
         $answerDataProvider = (new AnswerSearch())->search($request->queryParams, $model->getAnswers());
         $answerDataProvider->query->with($with);
 
         return $this->render('view', [
             'model' => $model,
-            'answer' => $this->newAnswer($model),
+            'answer' => $answer,
             'answerDataProvider' => $answerDataProvider
         ]);
     }
@@ -94,7 +129,7 @@ class DefaultController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findQuestion($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -119,24 +154,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * Finds the Question model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Question the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id, \Closure $callback = null)
-    {
-        $query = Question::find();
-        $callback !== null && $callback($query);
-        if (($model = $query->andWhere(['id' => $id])->one()) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    /**
      * 创建新回答
      * @param $question
      * @return Answer
@@ -146,7 +163,7 @@ class DefaultController extends Controller
         $model = new Answer();
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
-            if ($question->addAnswer($model, true)) {
+            if ($question->addAnswer($model)) {
                 $this->flash('回答发表成功!', 'success');
                 Yii::$app->end(0, $this->refresh());
             }

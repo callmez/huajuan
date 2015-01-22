@@ -20,12 +20,6 @@ body {
     padding: 70px 15px 20px;
 }
 
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
-}
 
 .jumbotron {
     text-align: center;
@@ -100,11 +94,50 @@ a.desc:after {
 
 
 
+.mb10 {
+    margin-bottom: 10px;
+}
+.mb15 {
+    margin-bottom: 15px;
+}
+.mb20 {
+    margin-bottom: 20px;
+}
+
 .avatar {
     width: 40px;
     height: 40px;
 }
+.avatar-xl {
+    width: 128px;
+    height: 128px;
+}
 .avatar-sm {
     width: 32px;
     height: 32px;
+}
+.avatar-xs {
+    width: 24px;
+    height: 24px;
+}
+
+.navbar .avatar-xs {
+    margin: -3px 5px -2px 0;
+}
+.footer {
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+.footer a {
+    color: #666;
+}
+.footer .row,
+.footer dt {
+    margin-bottom: 15px;
+}
+.footer dd {
+    color: #777;
+    line-height: 25px;
 }
