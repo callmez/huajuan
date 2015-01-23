@@ -40,7 +40,7 @@ $isQuestion = !$model->pid;
                 </div>
             <?php endif ?>
             <div class="question-author">
-                <?= Html::a(Html::img($model->author->getAvatarUrl(), ['class' => 'avatar-sm']), ['question/view', 'id' => $model->id], [
+                <?= Html::a(Html::img($model->author->getAvatarUrl(), ['class' => 'avatar avatar-sm']), ['question/view', 'id' => $model->id], [
                     'title' => Html::encode($model->author->username),
                 ]) ?>
                 <p><?= Html::a(Html::encode($model->author->username), ['/user/home/index', 'id' => $model->author->id]) ?></p>

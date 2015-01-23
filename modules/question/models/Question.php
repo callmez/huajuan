@@ -48,6 +48,14 @@ class Question extends Post
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'subject' => '问题',
+            'content' => '问题内容'
+        ];
+    }
+
     /**
      * 获取帖子标签(关联tag_item表)
      * @return mixed
@@ -108,7 +116,7 @@ class Question extends Post
             'pid' => $this->id
         ]);
         if ($result = $model->save()) {
-            $model->setActive(); // 后期可以改为开关审核问题
+            $model->setActive(); //TODO 后期可以改为开关审核问题
         }
         return $result;
     }

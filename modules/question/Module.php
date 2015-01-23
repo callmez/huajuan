@@ -4,7 +4,7 @@ namespace app\modules\question;
 
 class Module extends \yii\base\Module
 {
-    public $layout = 'main';
+    public $layout = 'column2';
     public $controllerNamespace = 'app\modules\question\controllers';
 
     public function init()

@@ -1,12 +1,8 @@
 <?php
-use \Yii;
-use yii\helpers\Html;
+use Yii;
 use yii\widgets\ListView;
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\forum\models\Topic */
-//$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index']];
+$this->title = $model->subject;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-view">

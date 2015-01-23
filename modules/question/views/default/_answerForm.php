@@ -37,6 +37,6 @@ $this->registerJs("
     <div class="form-group text-right">
         <?= Html::submitButton('提交回答', ['class' => 'btn btn-success']) ?>
     </div>
-    <div id="wmd-preview" class="wmd-panel wmd-preview hide"></div>
+    <div id="wmd-preview" class="hide"></div>
     <?php ActiveForm::end(); ?>
 </div>

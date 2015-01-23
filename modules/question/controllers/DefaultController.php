@@ -112,13 +112,16 @@ class DefaultController extends Controller
     {
         $model = new Question();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->author_id = Yii::$app->user->getId();
+            if ($model->save() && $model->setActive()) { //TODO 后期改为审核开关
+                $this->flash('问题发表成功!!', 'success');
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**

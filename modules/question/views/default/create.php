@@ -1,18 +1,13 @@
 <?php
-
 use yii\helpers\Html;
 
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\question\models\Question */
-
-$this->title = 'Create Question';
-$this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index']];
+$this->title = '提问题';
 $this->params['breadcrumbs'][] = $this->title;
+$this->context->module->layout = 'column1';
 ?>
 <div class="question-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3 class="mb20"><?= Html::encode($this->title) ?></h3>
 
     <?= $this->render('_form', [
         'model' => $model,

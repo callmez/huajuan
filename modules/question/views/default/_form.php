@@ -2,26 +2,41 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\question\models\Question */
-/* @var $form yii\widgets\ActiveForm */
+use app\assets\PageDownAsset;
+PageDownAsset::register($this);
+$this->registerJs("
+    var commentConverter = Markdown.getSanitizingConverter();
+        commentEditor = new Markdown.Editor(commentConverter);
+        commentEditor.run();
+");
 ?>
 
 <div class="question-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'author_id')->textInput() ?>
+    <?= $form->field($model, 'subject',[
+        'template' => "{input}\n{hint}\n{error}"
+    ])->textInput([
+        'maxlength' => 255,
+        'class' => 'form-control input-lg',
+        'placeholder' => '请用一句话描述您的问题'
+    ]) ?>
 
-    <?= $form->field($model, 'subject')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'content', [
+        'template' => "<div id=\"wmd-button-bar\"></div>{input}\n{hint}\n{error}<div id=\"wmd-preview\"></div>",
+        'selectors' => [
+            'input' => '#wmd-input'
+        ]
+    ])->textarea([
+        'id' => 'wmd-input',
+        'class' => 'form-control input-lg',
+        'placeholder' => '在这里详细描述您的问题,支持Markdown语法',
+        'rows' => 10
+    ]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="form-group text-right">
+        <?= Html::submitButton('发表问题', ['class' => 'btn btn-primary btn-lg']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -42,35 +42,50 @@ AppAsset::register($this);
             ]);
             $items = [
                 ['label' => '首页', 'url' => ['/site/index']],
-                ['label' => '问答', 'url' => ['/question']],
+                ['label' => '问答', 'url' => ['/question/default/index']],
             ];
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav'],
+                'encodeLabels' => false,
+                'items' => $items,
+            ]);
+            $items = [];
             if (Yii::$app->user->isGuest) {
-                $items[] = ['label' => '登录', 'url' => Yii::$app->user->loginUrl];
-                $items[] = ['label' => '注册', 'url' => ['/user/signup']];
+                $items = [
+                    ['label' => '登录', 'url' => Yii::$app->user->loginUrl],
+                    ['label' => '注册', 'url' => ['/user/signup']]
+                ];
             } else {
                 $user = Yii::$app->user;
                 $identity = $user->identity;
-                $items[] = [
-                    'label' => Html::img($identity->getAvatarUrl([
+
+                $items = [
+                    [
+                        'label' => '发表问题',
+                        'url' => ['/question/default/create']
+                    ],
+                    [
+                        'label' => Html::img($identity->getAvatarUrl([
                             'width' => 32,
                             'height' => 32
                         ]), [
-                            'class' => 'avatar-xs',
+                            'class' => 'avatar avatar-xs',
                         ]) . ' ' . $identity->username,
-                    'items' => [
-                        [
-                            'label' => '<span class="fa fa-home fa-fw"></span> 个人中心',
-                            'url' => ['/user/home/index', 'id' => $user->id]
-                        ],
-                        [
-                            'label' => '<span class="fa fa-user fa-fw"></span> 后台管理',
-                            'url' => ['/admin'],
-                            'visible' => $user->can('visitAdmin')
-                        ],
-                        '<li class="divider"></li>',
-                        [
-                            'label' => '<span class="fa fa-sign-out fa-fw"></span> 退出登录',
-                            'url' => ['/user/logout']
+                        'items' => [
+                            [
+                                'label' => '<span class="fa fa-home fa-fw"></span> 个人中心',
+                                'url' => ['/user/home/index', 'id' => $user->id]
+                            ],
+                            [
+                                'label' => '<span class="fa fa-user fa-fw"></span> 后台管理',
+                                'url' => ['/admin'],
+                                'visible' => $user->can('visitAdmin')
+                            ],
+                            '<li class="divider"></li>',
+                            [
+                                'label' => '<span class="fa fa-sign-out fa-fw"></span> 退出登录',
+                                'url' => ['/user/logout']
+                            ]
                         ]
                     ]
                 ];
@@ -109,7 +124,7 @@ AppAsset::register($this);
                 </div>
                 <div class="col-sm-6">
                     <dt> 技术采用 </dt>
-                    <dd> 由 <a href="https://github.com/callmez">CallMeZ</a> 创建 </dd>
+                    <dd> 由 <a href="https://github.com/callmez">CallMeZ</a> 创建 项目地址: <a href="https://github.com/callmez/huajuan">huajuan</a> </dd>
                     <dd> <?= Yii::powered() ?> </dd>
                 </div>
             </div>
