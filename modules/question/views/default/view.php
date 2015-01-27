@@ -18,9 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'class' => 'text-center'
         ]
     ]) ?>
-    <?php if (!Yii::$app->user->getIsGuest()): ?>
-        <?= $this->render('_answerForm', [
-            'model' => $answer
-        ]) ?>
-    <?php endif ?>
+    <?= $this->render('_answerForm', [
+        'model' => $answer
+    ]) ?>
 </div>

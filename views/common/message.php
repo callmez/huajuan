@@ -1,6 +1,7 @@
 <?php
 use \Yii;
 use yii\helpers\ArrayHelper;
+$this->context->layout = '@app/views/layouts/main';
 
 $statusSettings = [
     'success' => [

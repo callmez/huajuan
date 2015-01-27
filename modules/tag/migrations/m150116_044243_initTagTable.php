@@ -2,8 +2,8 @@
 
 use yii\db\Schema;
 use yii\db\Migration;
-use app\models\Tag;
-use app\models\TagItem;
+use app\modules\tag\models\Tag;
+use app\modules\tag\models\TagItem;
 
 class m150116_044243_initTagTable extends Migration
 {
@@ -16,11 +16,13 @@ class m150116_044243_initTagTable extends Migration
             'name' => Schema::TYPE_STRING . "(64) NOT NULL COMMENT '标签名'",
             'icon' => Schema::TYPE_STRING . " NOT NULL DEFAULT '' COMMENT '标签图标'",
             'description' => Schema::TYPE_TEXT . " NOT NULL COMMENT '版块介绍'",
+            'author_id' => Schema::TYPE_INTEGER . " UNSIGNED NOT NULL DEFAULT '0' COMMENT '作者'",
             'status' => Schema::TYPE_BOOLEAN . " NOT NULL DEFAULT '0' COMMENT '标签状态'",
             'created_at' => Schema::TYPE_INTEGER . " UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间'",
             'updated_at' => Schema::TYPE_INTEGER . " UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改时间'",
         ]);
         $this->createIndex('name', $tableName, 'name', true);
+        $this->createIndex('author_id', $tableName, 'author_id');
 
         //标签数据表
         $tableName = TagItem::tableName();

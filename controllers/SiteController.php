@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\modules\tag\models\Tag;
+use app\modules\tag\models\TagItem;
 use app\modules\user\models\Like;
 use Yii;
 use yii\filters\AccessControl;
@@ -99,6 +101,13 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-        echo Yii::$app->formatter->asRelativeTime(time());
+        
+        $tag = Tag::findOne(['name' => '123']);
+        $item = new TagItem([
+            'target_id' => 1,
+            'target_type' => 'question',
+        ]);
+        $tag->addItem($item);
+        print_r($item->errors);
     }
 }

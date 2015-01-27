@@ -47,28 +47,32 @@ trait QuestionTrait
     }
 
     /**
-     * 获取踩记录
+     * 获取指定用户的踩记录
+     * @param null|int $authorId
      * @return mixed
      */
-    public function getHate()
+    public function getHate($authorId = null)
     {
         return $this->hasOne(Hate::className(), [
             'target_id' => 'id',
         ])->andWhere([
-            'target_type' => self::TYPE
+            'target_type' => self::TYPE,
+            'author_id' => $authorId ?: Yii::$app->getUser()->getId()
         ]);
     }
 
     /**
-     * 获取赞记录
+     * 获取指定用户的赞记录
+     * @param null|int $authorId
      * @return mixed
      */
-    public function getLike()
+    public function getLike($authorId = null)
     {
         return $this->hasOne(Like::className(), [
             'target_id' => 'id',
         ])->andWhere([
             'target_type' => self::TYPE,
+            'author_id' => $authorId ?: Yii::$app->getUser()->getId()
         ]);
     }
 }

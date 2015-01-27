@@ -5,10 +5,11 @@ namespace app\modules\question\controllers;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-use yii\web\NotFoundHttpException;
+use app\modules\tag\models\Tag;
 use app\components\ControllerTrait;
 use app\modules\question\components\ControllerTrait as QuestionControllerTrait;
 use app\modules\question\models\Question;
+use app\modules\question\models\QuestionForm;
 use app\modules\question\models\QuestionSearch;
 use app\modules\question\models\Answer;
 use app\modules\question\models\AnswerSearch;
@@ -110,17 +111,17 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Question();
-
+        $model = new QuestionForm();
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->getId();
-            if ($model->save() && $model->setActive()) { //TODO 后期改为审核开关
+            if ($model->validate() && ($question = $model->create())) {
                 $this->flash('问题发表成功!!', 'success');
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $question->id]);
             }
         }
         return $this->render('create', [
             'model' => $model,
+            'tagModel' => new Tag()
         ]);
     }
 

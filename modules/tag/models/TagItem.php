@@ -1,5 +1,5 @@
 <?php
-namespace app\models;
+namespace app\modules\tag\models;
 
 use yii\db\ActiveRecord;
 
@@ -13,7 +13,8 @@ class TagItem extends ActiveRecord
     public function rules()
     {
         return [
-            [['tid', 'target_id', 'target_type'], 'required']
+            [['tid', 'target_id', 'target_type'], 'required'],
+            [['target_id'], 'unique', 'targetAttribute' => ['tid', 'target_id', 'target_type']]
         ];
     }
 

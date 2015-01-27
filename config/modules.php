@@ -1,7 +1,12 @@
 <?php
 $modules = [
-    // 用户模块
+    // 用户
     'user' => 'app\modules\user\Module',
+
+    // 标签
+    'tag' => [
+        'class' => 'app\modules\tag\Module',
+    ],
 
     // 问答
     'question' => [

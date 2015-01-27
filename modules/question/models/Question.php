@@ -3,9 +3,9 @@ namespace app\modules\question\models;
 
 use app\modules\user\models\User;
 use Yii;
-use app\models\Tag;
-use app\models\TagItem;
 use app\models\Post;
+use app\modules\tag\models\Tag;
+use app\modules\tag\models\TagItem;
 use app\modules\user\models\Favorite;
 
 class Question extends Post
@@ -84,15 +84,17 @@ class Question extends Post
     }
 
     /**
-     * 获取收藏记录
+     * 获取指定用户的收藏记录
+     * @param null|int $authorId
      * @return mixed
      */
-    public function getFavorite()
+    public function getFavorite($authorId = null)
     {
         return $this->hasOne(Favorite::className(), [
             'target_id' => 'id',
         ])->andWhere([
-            'target_type' => self::TYPE
+            'target_type' => self::TYPE,
+            'author_id' => $authorId ?: Yii::$app->getUser()->getId()
         ]);
     }
 

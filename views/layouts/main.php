@@ -12,6 +12,7 @@ use app\assets\AppAsset;
 /* @var $content string */
 
 AppAsset::register($this);
+Html::beginForm()
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -125,7 +126,7 @@ AppAsset::register($this);
                 <div class="col-sm-6">
                     <dt> 技术采用 </dt>
                     <dd> 由 <a href="https://github.com/callmez">CallMeZ</a> 创建 项目地址: <a href="https://github.com/callmez/huajuan">huajuan</a> </dd>
-                    <dd> <?= Yii::powered() ?> </dd>
+                    <dd> <?= Yii::powered() ?> <?= Yii::getVersion() ?> </dd>
                 </div>
             </div>
         </div>

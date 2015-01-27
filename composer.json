@@ -19,8 +19,10 @@
 
         "callmez/yii2-config": "*",
 
+        "bower-asset/semantic": ">=1.8.0",
         "bower-asset/fontawesome": "*",
         "bower-asset/adminlte": "*",
+        "bower-asset/selectize": "*",
         "bower-asset/pagedown": "*",
         "bower-asset/angular": "1.2.*@stable | 1.3.*@stable"
     },

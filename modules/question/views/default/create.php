@@ -11,6 +11,7 @@ $this->context->module->layout = 'column1';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'tagModel' => $tagModel
     ]) ?>
 
 </div>
