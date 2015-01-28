@@ -37,19 +37,18 @@ class m150001_145055_initUser extends Migration
         //rbac
         Menu::set('rbac', [
             'label' => '角色权限',
-            'url' => ['/user/admin/rbac/index'],
             'icon' => 'fa-group',
             'priority' => 100
         ]);
         Menu::set('rbac.roles', [
             'label' => '角色列表',
-            'url' => ['/user/admin/rbac/roles'],
-            'priority' => 100
+            'url' => ['/user/admin/role/index'],
+            'priority' => 101
         ]);
         Menu::set('rbac.permissions', [
             'label' => '权限列表',
-            'url' => ['/user/admin/rbac/permissions'],
-            'priority' => 100
+            'url' => ['/user/admin/permission/index'],
+            'priority' => 102
         ]);
 
         Console::output('注册用户模块后台管理菜单完成 ....');

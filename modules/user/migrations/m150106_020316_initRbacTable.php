@@ -47,7 +47,7 @@ class m150106_020316_initRbacTable extends m140506_102106_rbac_init
 
         /* ================= 权限 ================= */
         $visitAdmin = $auth->createPermission('visitAdmin');
-        $visitAdmin->description = '访问后台管理界面';
+        $visitAdmin->description = '访问后台管理界面权限';
         $auth->add($visitAdmin);
 
         /* ================= 身份 ================= */

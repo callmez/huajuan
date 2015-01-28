@@ -23,9 +23,16 @@ class SidebarMenu extends Menu
      * @var string
      */
     public $labelTemplate = '<a href="javascript:;"> <i class="fa {icon}"></i> <span>{label}</span> {badge}</a>';
-
+    /**
+     * @inherit
+     * @var string
+     */
     public $submenuTemplate = "\n<ul class=\"treeview-menu\">\n{items}\n</ul>\n";
-
+    /**
+     * @inherit
+     * @var string
+     */
+    public $activateParents = true;
     /**
      * @inherit
      * @var array
@@ -33,7 +40,6 @@ class SidebarMenu extends Menu
     public $options = [
         'class' => 'sidebar-menu'
     ];
-
     /**
      * 默认的Icon class
      * @var string
