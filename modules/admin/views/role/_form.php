@@ -5,8 +5,8 @@ use yii\grid\GridView;
 use yii\widgets\ListView;
 use yii\bootstrap\ActiveForm;
 use yii\data\ArrayDataProvider;
+$script = <<<EOF
 
-$this->registerJs(<<<EOF
 //继承的权限控制
 var extendPermissions = $('#extendPermissions'),
     childRoles = $('[data-key=child-role-checkbox]');
@@ -27,8 +27,8 @@ childRoles.on('change', function(){
     extendPermissions.append('<div class="col-sm-12">没有可继承的权限</div>');
 }).eq(0).change();
 
-EOF
-);
+EOF;
+$this->registerJs($script);
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -44,8 +44,8 @@ EOF
         ],
     ]
 ]) ?>
-    <?= $form->field($authItemForm, 'description') ?>
     <?= $form->field($authItemForm, 'name') ?>
+    <?= $form->field($authItemForm, 'description') ?>
     <?= $form->field($authItemForm, 'ruleName') ?>
     <?= $form->field($authItemForm, 'data')->textarea() ?>
 
@@ -64,8 +64,8 @@ EOF
                                 'width' => 30
                             ],
                             'format' => 'raw',
-                            'value' => function ($data) use ($authChildItemForm, $childRoles) {
-                                return Html::checkbox(Html::getInputName($authChildItemForm, "child[{$data->type}][]"), isset($childRoles[$data->name]), [
+                            'value' => function ($data) use ($authItemForm, $children) {
+                                return Html::checkbox(Html::getInputName($authItemForm, "children[]"), isset($children[$data->name]), [
                                     'value' => $data->name,
                                     'data-key' => 'child-role-checkbox'
                                 ]);
@@ -123,10 +123,9 @@ EOF
                 'itemOptions' => [
                     'class' => 'col-sm-3 col-xs-6'
                 ],
-                'itemView' => function ($model, $key, $index, $widget) use ($authChildItemForm, $childPermissions) {
-                    $checkbox = Html::checkbox(Html::getInputName($authChildItemForm, "child[{$model->type}][]"), isset($childPermissions[$model->name]), [
-                        'value' => $model->name,
-                        'data-key' => 'child-role-checkbox'
+                'itemView' => function ($model, $key, $index, $widget) use ($authItemForm, $children) {
+                    $checkbox = Html::checkbox(Html::getInputName($authItemForm, "children[]"), isset($children[$model->name]), [
+                        'value' => $model->name
                     ]);
                     return Html::label($checkbox . ' ' . ($model->description ?: $model->name), null, [
                         'class' => 'checkbox',

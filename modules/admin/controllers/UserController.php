@@ -1,20 +1,18 @@
 <?php
 
-namespace app\modules\user\controllers\admin;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use yii\rbac\Item;
-use yii\filters\VerbFilter;
-use yii\data\ArrayDataProvider;
-use yii\web\NotFoundHttpException;
+use app\modules\admin\models\UserForm;
+use app\modules\admin\models\UserSearch;
 use app\modules\admin\components\Controller;
-use app\modules\user\models\AuthItemForm;
-use app\modules\user\models\AuthChildItemForm;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * PermissionController implements the CRUD actions for User model.
+ * UserController implements the CRUD actions for User model.
  */
-class PermissionController extends Controller
+class UserController extends Controller
 {
     public function behaviors()
     {
@@ -34,29 +32,12 @@ class PermissionController extends Controller
      */
     public function actionIndex()
     {
-        $authManager = Yii::$app->getAuthManager();
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $authManager->getPermissions(),
-            'pagination' => [
-                'pageSize' => 20,
-            ],
-        ]);
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'authItemForm' => new AuthItemForm(['type' => Item::TYPE_PERMISSION]),
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-    /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -67,10 +48,11 @@ class PermissionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new UserForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $this->flash('用户创建成功!', 'success');
+            return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -89,7 +71,8 @@ class PermissionController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $this->flash('修改成功', 'success');
+            return $this->refresh();
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -105,7 +88,12 @@ class PermissionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $roles = Yii::$app->getAuthManager()->getRolesByUser($model->id);
+        if (isset($roles['founder'])) {
+            return $this->message('创始人账户不能被删除!');
+        }
+        $model->delete();
 
         return $this->redirect(['index']);
     }
@@ -119,7 +107,7 @@ class PermissionController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = UserForm::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

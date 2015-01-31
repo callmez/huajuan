@@ -27,7 +27,8 @@ class Favorite extends Meta
             'status' => static::STATUS_ACTIVE
         ];
         if (!static::deleteAll($data + ['type' => static::TYPE])) { // 删除数据有行数则代表有数据,无行数则添加数据
-            $favorite = new static($data);
+            $favorite = new static();
+            $favorite->setAttributes($data);
             $result = $favorite->save();
             if ($result) {
                 $model->updateCounters([

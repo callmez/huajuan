@@ -2,12 +2,11 @@
 namespace app\commands;
 
 use Yii;
-use yii\helpers\Console;
 use yii\console\Controller;
+use yii\helpers\Console;
 
 /**
  * 项目命令
- *
  * @package app\commands
  */
 class AppController extends Controller
@@ -159,6 +158,8 @@ EOF;
      */
     public function actionMigrate()
     {
+        $this->stdout("\n开始迁移数据库结构和数据\n", Console::FG_GREEN);
+        $this->stdout("** 如无特殊需求,当询问是否迁移数据是回复yes既可 **\n", Console::FG_RED);
         // 默认迁移目录
         $migrationsPath = array(
             '默认目录' => Yii::getAlias('@app/migrations')
@@ -174,7 +175,7 @@ EOF;
             if (!is_dir($migrationPath)) {
                 continue;
             }
-            $this->stdout("\n\n{$name}迁移: {$migrationPath}\n", Console::FG_GREEN);
+            $this->stdout("\n\n{$name}迁移: {$migrationPath}\n", Console::FG_YELLOW);
             Yii::$app->runAction('migrate/up', [
                 'migrationPath' => $migrationPath
             ]);

@@ -31,7 +31,8 @@ class QuestionForm extends Model
 
     public function create()
     {
-        $question = new Question([
+        $question = new Question();
+        $question->setAttributes([
             'subject' => $this->subject,
             'content' => $this->content,
             'author_id' => $this->author_id,
@@ -41,10 +42,12 @@ class QuestionForm extends Model
                 'name' => is_array($this->tags) ? $this->tags : explode(',', $this->tags)
             ]);
             foreach ($tags as $tag) {
-                $tag->addItem(new TagItem([
+                $tagItem = new TagItem();
+                $tagItem->setAttributes([
                     'target_id' => $question->id,
                     'target_type' => $question::TYPE,
-                ]));
+                ]);
+                $tag->addItem($tagItem);
             }
         }
         return $result ? $question : false;

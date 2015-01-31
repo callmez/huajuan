@@ -189,6 +189,18 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'UID',
+            'username' => '用户名',
+            'email' => '邮箱',
+            'status' => '状态',
+            'created_at' => '注册时间',
+            'updated_at' => '更新时间',
+        ];
+    }
+
     /**
      * 获取用户头像,(如果无数据则返回默认头像)
      * @return mixed

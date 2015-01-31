@@ -12,8 +12,14 @@ class Controller extends \yii\web\Controller
 
     public function init()
     {
-//        if (!Yii::$app->getUser()->can('visitAdmin')) { // 判断是否有访问后台权限
-//            throw new NotFoundHttpException('The requested page does not exist.');
-//        }
+        parent::init();
+        $this->checkAdmin();
+    }
+
+    public function checkAdmin()
+    {
+        if (!Yii::$app->getUser()->can('visitAdmin')) { // 判断是否有访问后台权限
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

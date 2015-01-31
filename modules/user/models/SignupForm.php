@@ -20,18 +20,14 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'filter', 'filter' => 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => 'app\modules\user\models\User', 'message' => '用户名已经被注册过.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
-
-            ['email', 'filter', 'filter' => 'trim'],
-            ['email', 'required'],
+            [['username', 'email'], 'filter', 'filter' => 'trim'],
+            [['username', 'email', 'password'], 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => 'app\modules\user\models\User', 'message' => '邮箱已经被使用过.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['password', 'string', 'min' => 4],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 5],
+            ['username', 'unique', 'targetClass' => 'app\modules\user\models\User', 'message' => '用户名已经被注册过.'],
+            ['email', 'unique', 'targetClass' => 'app\modules\user\models\User', 'message' => '邮箱已经被使用过.'],
         ];
     }
 

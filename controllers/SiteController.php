@@ -101,13 +101,7 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-        
-        $tag = Tag::findOne(['name' => '123']);
-        $item = new TagItem([
-            'target_id' => 1,
-            'target_type' => 'question',
-        ]);
-        $tag->addItem($item);
-        print_r($item->errors);
+        echo __METHOD__;
+        Yii::error([1], 'site.test');
     }
 }

@@ -2,13 +2,13 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 
-$this->title = '角色列表';
+$this->title = '权限列表';
 $this->params['breadcrumbs'] = [
     '角色与权限',
     $this->title
 ];
 ?>
-<p><?= Html::a('添加角色', ['create'], ['class' => 'btn btn-primary']) ?></p>
+<p><?= Html::a('添加权限', ['create'], ['class' => 'btn btn-primary']) ?></p>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'] = [
             'label' => $authItemForm->getAttributeLabel('name'),
             'format' => 'html',
             'value' => function ($data) {
-                    return Html::a($data->name, ['update', 'name' => $data->name]);
+                    return Html::a($data->name, ['update', 'id' => $data->name]);
                 }
         ],
         [
@@ -35,17 +35,24 @@ $this->params['breadcrumbs'] = [
         [
             'attribute' => 'createdAt',
             'label' => $authItemForm->getAttributeLabel('createdAt'),
-            'format' => ['date', 'Y-m-d H:i:s'],
+            'format' => 'datetime',
             'options' => [
-                'width' => 140
+                'width' => 180
             ]
         ],
         [
             'attribute' => 'updatedAt',
             'label' => $authItemForm->getAttributeLabel('updatedAt'),
-            'format' => ['date', 'Y-m-d H:i:s'],
+            'format' => 'datetime',
             'options' => [
-                'width' => 140
+                'width' => 180
+            ]
+        ],
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'template' => '{update} {delete}',
+            'options' => [
+                'width' => 50
             ]
         ],
     ]

@@ -35,7 +35,8 @@ class Like extends Meta
             'status' => static::STATUS_ACTIVE
         ];
         if (!static::deleteAll($data + ['type' => static::TYPE])) { // 删除数据有行数则代表有数据,无行数则添加数据
-            $like = new static($data);
+            $like = new static();
+            $like->setAttributes($data);
             $result = $like->save();
             if ($result) { // 如果是新增数据, 删除掉Hate的同类型数据
                 $attributes = [

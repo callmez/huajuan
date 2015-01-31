@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\user\controllers\admin;
+namespace app\modules\admin\controllers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -9,8 +9,7 @@ use yii\filters\VerbFilter;
 use yii\data\ArrayDataProvider;
 use yii\web\NotFoundHttpException;
 use app\modules\admin\components\Controller;
-use app\modules\user\models\AuthItemForm;
-use app\modules\user\models\AuthChildItemForm;
+use app\modules\admin\models\AuthItemForm;
 
 /**
  * RoleController implements the CRUD actions for User model.
@@ -50,18 +49,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -70,11 +57,15 @@ class RoleController extends Controller
     {
         $authManager = Yii::$app->getAuthManager();
         $authItemForm = new AuthItemForm(['type' => Item::TYPE_ROLE]);
-        $authChildItemForm = new AuthChildItemForm;
+
+        $post = Yii::$app->getRequest()->post();
+        if ($authItemForm->load($post) && $authItemForm->save()) {
+            $this->flash('创建成功', 'success');
+            return $this->redirect('index');
+        }
 
         return $this->render('create', [
             'authItemForm' => $authItemForm,
-            'authChildItemForm' => $authChildItemForm,
             'rolesDataProvider' => new ArrayDataProvider([
                 'models' => $authManager->getRoles()
             ]),
@@ -90,22 +81,24 @@ class RoleController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($name)
+    public function actionUpdate($id)
     {
+        $role = $this->findItem($id);
+
         $authManager = Yii::$app->getAuthManager();
-        $role = $authManager->getRole($name);
-        if ($role === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+        $authItemForm = new AuthItemForm(['type' => Item::TYPE_ROLE]);
+        $authItemForm->setAttributes(ArrayHelper::toArray($role));
+        $authItemForm->setItem($role);
+
+        $post = Yii::$app->getRequest()->post();
+        if ($authItemForm->load($post) && $authItemForm->save()) {
+            $this->flash('修改成功', 'success');
+            return $this->redirect('index');
         }
-
-        $authItemForm = new AuthItemForm(ArrayHelper::toArray($role));
-        $authChildItemForm = new AuthChildItemForm;
-
-        $children = $authManager->getChildren($authItemForm->name);
 
         return $this->render('update', [
             'authItemForm' => $authItemForm,
-            'authChildItemForm' => $authChildItemForm,
+            'children' => $authManager->getChildren($authItemForm->name),
             'rolesDataProvider' => new ArrayDataProvider([
                 'models' => array_filter($authManager->getRoles(), function ($role) use ($authItemForm, $authManager) {
                     return ($role->name !== $authItemForm->name) && !$authManager->hasChild($role, $authItemForm); // 子角色中不能显示父角色和当前角色
@@ -113,9 +106,7 @@ class RoleController extends Controller
             ]),
             'permissionsDataProvider' => new ArrayDataProvider([
                 'models' => $authManager->getPermissions()
-            ]),
-            'childRoles' => array_diff_key($children, $authManager->getPermissionsByRole($authItemForm->name)), // 获取非权限的的角色
-            'childPermissions' => $authManager->getPermissionsByRole($authItemForm->name, false)
+            ])
         ]);
     }
 
@@ -127,8 +118,10 @@ class RoleController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $role = $this->findItem($id);
+        if (Yii::$app->getAuthManager()->remove($role)) {
+            $this->flash('删除成功!', 'success');
+        }
         return $this->redirect(['index']);
     }
 
@@ -139,10 +132,10 @@ class RoleController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findItem($id)
     {
-        if (($model = User::findOne($id)) !== null) {
-            return $model;
+        if (($role = Yii::$app->getAuthManager()->getRole($id)) !== null) {
+            return $role;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
