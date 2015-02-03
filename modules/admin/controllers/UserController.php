@@ -51,8 +51,7 @@ class UserController extends Controller
         $model = new UserForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->flash('用户创建成功!', 'success');
-            return $this->redirect(['update', 'id' => $model->id]);
+            return $this->message('用户创建成功!', 'success', ['update', 'id' => $model->id], 'flash');
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -71,8 +70,7 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $this->flash('修改成功', 'success');
-            return $this->refresh();
+            return $this->message('修改成功', 'success', $this->refresh(), 'flash');
         } else {
             return $this->render('update', [
                 'model' => $model,

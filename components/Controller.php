@@ -5,7 +5,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Response;
 
-trait ControllerTrait
+class Controller extends \yii\web\Controller
 {
     public $messageLayout = '//common/message';
     /**
@@ -18,38 +18,31 @@ trait ControllerTrait
      */
     public function message($message, $type = 'error', $redirect = null, $resultType = null)
     {
-        $resultType === null && $resultType = Yii::$app->getRequest()->getIsAjax() ? 'json' : 'html';
-        $redirect = Url::to($redirect);
+        if ($resultType === null) {
+            $resultType = Yii::$app->getRequest()->getIsAjax() ? 'json' : 'html';
+        } elseif ($resultType === 'flash') {
+            $resultType = Yii::$app->getRequest()->getIsAjax() ? 'json' : $resultType;
+        }
         $data = [
             'type' => $type,
             'message' => $message,
-            'redirect' => $redirect
+            'redirect' => Url::to($redirect)
         ];
-
         switch ($resultType) {
             case 'html':
                 return $this->render($this->messageLayout, $data);
             case 'json':
                 Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 return $data;
+            case 'flash':
+                Yii::$app->session->setFlash($type, $message);
+                if ($redirect !== null)  {
+                    Yii::$app->end(0, $this->redirect($data['redirect']));
+                }
+                return true;
+
             default:
                 return $message;
         }
-    }
-
-    /**
-     * 发送flash消息
-     * @param $message
-     * @param string $type
-     * @param null $redirect
-     * @return bool
-     */
-    public function flash($message, $type = 'error', $redirect = null) {
-        Yii::$app->session->setFlash($type, $message);
-        if ($redirect) {
-            Yii::$app->getResponse()->redirect($redirect);
-            Yii::$app->end();
-        }
-        return true;
     }
 }

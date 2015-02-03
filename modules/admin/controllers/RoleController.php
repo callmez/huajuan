@@ -60,8 +60,7 @@ class RoleController extends Controller
 
         $post = Yii::$app->getRequest()->post();
         if ($authItemForm->load($post) && $authItemForm->save()) {
-            $this->flash('创建成功', 'success');
-            return $this->redirect('index');
+            return $this->message('创建成功', 'success', 'index', 'flash');
         }
 
         return $this->render('create', [
@@ -92,8 +91,7 @@ class RoleController extends Controller
 
         $post = Yii::$app->getRequest()->post();
         if ($authItemForm->load($post) && $authItemForm->save()) {
-            $this->flash('修改成功', 'success');
-            return $this->redirect('index');
+            return $this->message('修改成功', 'success', 'index', 'flash');
         }
 
         return $this->render('update', [
@@ -120,9 +118,8 @@ class RoleController extends Controller
     {
         $role = $this->findItem($id);
         if (Yii::$app->getAuthManager()->remove($role)) {
-            $this->flash('删除成功!', 'success');
+            $this->message('删除成功!', 'success', null, 'flash');
         }
-        return $this->redirect(['index']);
     }
 
     /**

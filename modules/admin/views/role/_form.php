@@ -140,5 +140,4 @@ $this->registerJs($script);
             <?= Html::submitButton('提交', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
-
 <?php ActiveForm::end() ?>

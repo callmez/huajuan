@@ -1,15 +1,12 @@
 <?php
 namespace app\modules\tag\controllers;
 
-use yii\web\Controller;
 use yii\filters\AccessControl;
-use app\components\ControllerTrait;
+use app\components\Controller;
 use app\modules\tag\models\TagSearch;
 
 class SearchController extends Controller
 {
-    use ControllerTrait;
-
     public function behaviors()
     {
         return [

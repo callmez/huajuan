@@ -5,7 +5,7 @@ use yii\web\NotFoundHttpException;
 use app\modules\question\models\Answer;
 use app\modules\question\models\Question;
 
-trait ControllerTrait
+class Controller extends \app\components\Controller
 {
     /**
      * 通过ID获取指定问题

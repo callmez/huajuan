@@ -4,17 +4,14 @@ namespace app\modules\tag\controllers;
 
 use Yii;
 use yii\web\Response;
-use yii\web\Controller;
 use yii\widgets\ActiveForm;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
-use app\components\ControllerTrait;
+use app\components\Controller;
 use app\modules\tag\models\Tag;
 
 class DefaultController extends Controller
 {
-    use ControllerTrait;
-
     public function behaviors()
     {
         return [

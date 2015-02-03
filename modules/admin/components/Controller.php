@@ -2,12 +2,10 @@
 namespace app\modules\admin\components;
 
 use Yii;
-use app\components\ControllerTrait;
 use yii\web\NotFoundHttpException;
 
-class Controller extends \yii\web\Controller
+class Controller extends \app\components\Controller
 {
-    use ControllerTrait;
     public $layout = '@app/modules/admin/views/layouts/main';
 
     public function init()

@@ -3,11 +3,9 @@
 namespace app\modules\question\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\modules\tag\models\Tag;
-use app\components\ControllerTrait;
-use app\modules\question\components\ControllerTrait as QuestionControllerTrait;
+use app\modules\question\components\Controller;
 use app\modules\question\models\Question;
 use app\modules\question\models\QuestionForm;
 use app\modules\question\models\QuestionSearch;
@@ -19,9 +17,6 @@ use app\modules\question\models\AnswerSearch;
  */
 class DefaultController extends Controller
 {
-    use ControllerTrait;
-    use QuestionControllerTrait;
-
     public function behaviors()
     {
         return [
@@ -43,6 +38,7 @@ class DefaultController extends Controller
         $searchModel = new QuestionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $dataProvider->query->with('tags');
         $sort = $dataProvider->getSort();
         $sort->attributes = array_merge($sort->attributes, [
             'hotest' => [
@@ -88,6 +84,7 @@ class DefaultController extends Controller
         $with = ['hate', 'like', 'author'];
         $model = $this->findQuestion($id, function($query) use ($with) {
             $with[] = 'favorite';
+            $with[] = 'tags';
             $query->with($with);
         });
 
@@ -115,8 +112,7 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->getId();
             if ($model->validate() && ($question = $model->create())) {
-                $this->flash('问题发表成功!!', 'success');
-                return $this->redirect(['view', 'id' => $question->id]);
+                return $this->message('问题发表成功!!', 'success', ['view', 'id' => $question->id], 'flash');
             }
         }
         return $this->render('create', [
@@ -168,8 +164,7 @@ class DefaultController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->author_id = Yii::$app->user->id;
             if ($question->addAnswer($model)) {
-                $this->flash('回答发表成功!', 'success');
-                Yii::$app->end(0, $this->refresh());
+                return $this->message('回答发表成功!', 'success', $this->refresh(), 'flash');
             }
         }
         return $model;

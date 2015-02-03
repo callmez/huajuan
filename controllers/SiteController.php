@@ -2,20 +2,18 @@
 
 namespace app\controllers;
 
-use app\modules\tag\models\Tag;
-use app\modules\tag\models\TagItem;
-use app\modules\user\models\Like;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-use app\components\ControllerTrait;
+use app\components\Controller;
+use app\modules\tag\models\Tag;
+use app\modules\tag\models\TagItem;
+use app\modules\user\models\Like;
 
 class SiteController extends Controller
 {
-    use ControllerTrait;
     public function behaviors()
     {
         return [

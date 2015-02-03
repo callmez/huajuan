@@ -2,16 +2,12 @@
 namespace app\modules\user\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\filters\AccessControl;
 use app\modules\user\models\Favorite;
-use app\components\ControllerTrait;
-use app\modules\question\components\ControllerTrait as QuestionControllerTrait;
+use app\modules\question\components\Controller;
 
 class FavoriteController extends Controller
 {
-    use ControllerTrait;
-    use QuestionControllerTrait;
 
     public function behaviors()
     {
