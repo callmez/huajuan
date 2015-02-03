@@ -12,3 +12,4 @@ cd huajuan
 php yii app
 ```
 按照提示步骤安装完毕后  即可访问网站
+
