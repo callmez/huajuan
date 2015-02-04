@@ -5,8 +5,8 @@ use yii\web\AssetBundle;
 
 class IonIconsAsset extends AssetBundle
 {
-    public $sourcePath = '@app/modules/admin/web/ionicons';
+    public $sourcePath = '@app/modules/admin/web';
     public $css = [
-        'css/ionicons.css'
+        'ionicons/css/ionicons.css'
     ];
 }
