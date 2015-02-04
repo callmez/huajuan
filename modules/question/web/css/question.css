@@ -137,9 +137,8 @@
     margin-left: 64px;
     margin-bottom: 55px;
 }
-
-.question-content img {
-    width: 100%;
+.question-post img, #wmd-preview img {
+    max-width: 100%;
 }
 
 .question-author {

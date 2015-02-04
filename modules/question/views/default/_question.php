@@ -31,7 +31,9 @@ $isQuestion = !$model->pid;
             <?php endif ?>
         </div>
         <div class="question-content">
-            <?= Markdown::process($model->content, 'gfm') ?>
+            <div class="question-post">
+                <?= Markdown::process($model->content, 'gfm') ?>
+            </div>
             <?php if ($isQuestion) : ?>
                 <div class="question-tags">
                     <?php foreach($model->tags as $tag): ?>
