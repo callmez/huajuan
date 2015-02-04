@@ -7,16 +7,18 @@ class AdminLteAsset extends AssetBundle
 {
     public $sourcePath = '@bower/adminlte';
     public $css = [
-        'css/morris/morris.css',
-        'css/AdminLTE.css',
+        'plugins/morris/morris.css',
+
+        'dist/css/AdminLTE.css',
     ];
     public $js = [
-        'js/AdminLTE/app.js'
+        'plugins/morris/morris.js',
+        'plugins/iCheck/icheck.js',
+        'plugins/slimScroll/jquery.slimscroll.js',
+        'dist/js/app.js'
     ];
     public $depends = [
-    'yii\bootstrap\BootstrapAsset',
-    'yii\bootstrap\BootstrapPluginAsset',
-    'app\assets\FontAwesomeAsset',
-    'app\modules\admin\assets\IonIconsAsset'
-];
+        'yii\bootstrap\BootstrapPluginAsset',
+        'app\assets\FontAwesomeAsset',
+    ];
 }
