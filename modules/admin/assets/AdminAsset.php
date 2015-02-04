@@ -5,7 +5,7 @@ use yii\web\AssetBundle;
 
 class AdminAsset extends AssetBundle
 {
-    public $sourcePath = '@app/modules/admin/web/admin';
+    public $sourcePath = '@app/modules/admin/web';
     public $css = [
     ];
     public $js = [
