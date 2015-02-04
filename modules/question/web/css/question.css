@@ -138,6 +138,10 @@
     margin-bottom: 55px;
 }
 
+.question-content img {
+    width: 100%;
+}
+
 .question-author {
     position: absolute;
     right: 0;
