@@ -78,7 +78,7 @@ codecept run functional,unit --coverage-html --coverage-xml
 
 You can see code coverage output under the `tests/_output` directory.
 
-###Remote code coverage
+### Remote code coverage
 
 When you run your tests not in the same process where code coverage is collected, then you should uncomment `remote` option and its
 related options, to be able to collect code coverage correctly. To setup remote code coverage you should follow [instructions](http://codeception.com/docs/11-Codecoverage)
